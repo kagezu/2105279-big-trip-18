@@ -1,6 +1,6 @@
 import { createElement } from '../render.js';
 
-const createTripInfoTemplate = () => `
+const createTemplate = () => `
  <section class="trip-main__trip-info  trip-info">
     <div class="trip-info__main">
       <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
@@ -12,7 +12,7 @@ const createTripInfoTemplate = () => `
 export default class TripInfoView {
 
   getTemplate() {
-    return createTripInfoTemplate();
+    return createTemplate();
   }
 
   getElement() {
