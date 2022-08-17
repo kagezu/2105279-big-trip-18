@@ -8,15 +8,14 @@ import EditEventView from '../view/edit-event-view.js';
 export default class EventsPresenter {
   eventsContainer = new TripEventListView();
 
-  init = (container) => {
+  init = (container, points) => {
     this.container = container;
+    this.points = points;
 
     render(new TripEventsView(), this.container);
     render(this.eventsContainer, this.container);
     render(new NewEventView(), this.eventsContainer.getElement());
     render(new EditEventView(), this.eventsContainer.getElement());
-    for (let i = 0; i < 3; i++) {
-      render(new TripEventItemView(), this.eventsContainer.getElement());
-    }
+    points.forEach((point) => render(new TripEventItemView(point), this.eventsContainer.getElement()));
   };
 }

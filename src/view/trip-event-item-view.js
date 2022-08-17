@@ -1,6 +1,7 @@
 import { createElement } from '../render.js';
+import { formatStringToYear, formatStringToDate, formatStringToDateWithTime, formatMinutesToTime } from '../utils.js';
 
-const createTemplate = () => `
+const createTemplate = ({ basePrice, dateFrom, dateTo, destination, id, isFavorite, offers, type }) => `
   <li class="trip-events__item">
     <div class="event">
       <time class="event__date" datetime="2019-03-18">MAR 18</time>
@@ -17,7 +18,7 @@ const createTemplate = () => `
         <p class="event__duration">30M</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">20</span>
+        &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
@@ -41,8 +42,12 @@ const createTemplate = () => `
 
 export default class TripEventItemView {
 
+  constructor(point) {
+    this.point = point;
+  }
+
   getTemplate() {
-    return createTemplate();
+    return createTemplate(this.point);
   }
 
   getElement() {
