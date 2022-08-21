@@ -1,4 +1,5 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
+
 import { formatStringToYear, formatStringToDate, formatStringToDateWithTime, formatMinutesToTime } from '../utils.js';
 
 const createTemplate = ({ basePrice, dateFrom, dateTo, destination, id, isFavorite, offers, type }) => `
@@ -40,24 +41,14 @@ const createTemplate = ({ basePrice, dateFrom, dateTo, destination, id, isFavori
     </div>
   </li>`;
 
-export default class TripEventItemView {
+export default class TripEventItemView extends AbstractView {
 
   constructor(point) {
+    super();
     this.point = point;
   }
 
-  getTemplate() {
+  get template() {
     return createTemplate(this.point);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }
