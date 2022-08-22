@@ -1333,7 +1333,7 @@ const OFFERS = [
   }
 ];
 
-const POINT_TYPE = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+const OFFERS_TYPE = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
 
-export { POINTS, DESTINATION, OFFERS, POINT_TYPE };
+export { POINTS, DESTINATION, OFFERS, OFFERS_TYPE };

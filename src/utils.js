@@ -9,14 +9,33 @@ dayjs.extend(duration);
 const formatStringToYear = (date) => dayjs(date).format('YYYY');
 
 /**
- *Преобразует в формат DD MMMM YYYY
+ *Преобразует в формат YYYY-MM-DD
  */
-const formatStringToDate = (date) => dayjs(date).format('DD MMMM YYYY');
+const formatStringToDate = (date) => dayjs(date).format('YYYY-MM-DD');
 
 /**
- *Преобразует в формат YYYY/MM/DD hh:mm
+ *Преобразует в формат MMMM DD
  */
-const formatStringToDateWithTime = (date) => dayjs(date).format('YYYY/MM/DD hh:mm');
+const formatStringToShortDate = (date) => dayjs(date).format('MMMM DD');
+
+/**
+ *Преобразует в формат YYYY-MM-DD[T]hh:mm
+ */
+const formatStringToDateWithTime = (date) => dayjs(date).format('YYYY-MM-DD[T]hh:mm');
+
+/**
+ *Преобразует в формат YYYY-MM-DD[T]hh:mm
+ */
+const formatStringToTime = (date) => dayjs(date).format('hh:mm');
+
+/**
+ *Преобразует разницу в часы и минуты H[H] mm[M]
+ */
+const formatDurationToTime = (dateFrom, dateTo) =>
+  dayjs.duration(
+    dayjs(dateTo)
+      .diff(dayjs(dateFrom)))
+    .format('H[H] mm[M]');
 
 /**
  *Преобразует  длительность в минутах, в часы и минуты
@@ -80,5 +99,8 @@ export {
   formatStringToYear,
   formatStringToDate,
   formatStringToDateWithTime,
-  formatMinutesToTime
+  formatMinutesToTime,
+  formatStringToShortDate,
+  formatStringToTime,
+  formatDurationToTime
 };
