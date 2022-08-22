@@ -14,6 +14,8 @@ const eventsPresenter = new EventsPresenter();
 
 const pointModel = new PointModel();
 
+while (pointModel.get().length === 0);
+
 infoPresenter.init(infoContainer);
 filterPresenter.init(filterContainer);
 eventsPresenter.init(eventsContainer, pointModel.get());

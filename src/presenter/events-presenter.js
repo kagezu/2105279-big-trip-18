@@ -14,8 +14,8 @@ export default class EventsPresenter {
 
     render(new TripEventsView(), this.container);
     render(this.eventsContainer, this.container);
-    render(new NewEventView(), this.eventsContainer.element);
-    render(new EditEventView(), this.eventsContainer.element);
+    // render(new NewEventView(), this.eventsContainer.element);
+    // render(new EditEventView(), this.eventsContainer.element);
     points.forEach((point) => render(new TripEventItemView(point), this.eventsContainer.element));
   };
 }
