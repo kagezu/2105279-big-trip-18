@@ -33,8 +33,15 @@ const createButtonFavorite = (isFavorite) => `
       <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z" />
     </svg>
   </button>`;
+const createOffer = ({ title, price }) => `
+  <li class="event__offer">
+    <span class="event__offer-title">${title}</span>
+    &plus;&euro;&nbsp;
+    <span class="event__offer-price">${price}</span>
+  </li>`;
+const createOfferList = (type, offers, offerModel) => offers.map((id) => createOffer(offerModel.get(type, id))).join('');
 
-const createTemplate = ({ basePrice, dateFrom, dateTo, isFavorite, offers, type }) => `
+const createTemplate = ({ basePrice, dateFrom, dateTo, isFavorite, offers, type }, offerModel) => `
   <li class="trip-events__item" >
     <div class="event">
       ${createDate(dateFrom)}
@@ -44,11 +51,7 @@ const createTemplate = ({ basePrice, dateFrom, dateTo, isFavorite, offers, type 
       ${createPrice(basePrice)}
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        <li class="event__offer">
-          <span class="event__offer-title">Order Uber</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">20</span>
-        </li>
+        ${createOfferList(type, offers, offerModel)}
       </ul>
       ${createButtonFavorite(isFavorite)}
       <button class="event__rollup-btn" type="button">
@@ -58,13 +61,16 @@ const createTemplate = ({ basePrice, dateFrom, dateTo, isFavorite, offers, type 
   </li> `;
 
 export default class TripEventItemView extends AbstractView {
+  #point;
+  #offerModel;
 
-  constructor(point) {
+  constructor(point, offerModel) {
     super();
-    this.point = point;
+    this.#point = point;
+    this.#offerModel = offerModel;
   }
 
   get template() {
-    return createTemplate(this.point);
+    return createTemplate(this.#point, this.#offerModel);
   }
 }

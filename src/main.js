@@ -3,6 +3,7 @@ import InfoPresenter from './presenter/info-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 
 import PointModel from './model/point-model.js';
+import OfferModel from './model/offer-model.js';
 
 const infoContainer = document.querySelector('.trip-main');
 const filterContainer = document.querySelector('.trip-controls__filters');
@@ -13,7 +14,8 @@ const filterPresenter = new FilterPresenter();
 const eventsPresenter = new EventsPresenter();
 
 const pointModel = new PointModel();
+const offerModel = new OfferModel();
 
 infoPresenter.init(infoContainer);
 filterPresenter.init(filterContainer);
-eventsPresenter.init(eventsContainer, pointModel.get());
+eventsPresenter.init(eventsContainer, pointModel.get(), offerModel);
