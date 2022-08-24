@@ -10,16 +10,18 @@ export default class EventsPresenter {
   #container;
   #points;
   #offerModel;
+  #destinationModel;
 
-  init = (container, points, offersModel) => {
+  init = (container, points, offersModel, destinationModel) => {
     this.#container = container;
     this.#points = points;
     this.#offerModel = offersModel;
+    this.#destinationModel = destinationModel;
 
     render(new TripEventsView(), this.#container);
     render(this.#eventsContainer, this.#container);
 
-    render(new EditEventView(), this.#eventsContainer.element);
+    render(new EditEventView(points[0], this.#offerModel), this.#eventsContainer.element);
 
     points.forEach((point) => render(new TripEventItemView(point, this.#offerModel), this.#eventsContainer.element));
   };
