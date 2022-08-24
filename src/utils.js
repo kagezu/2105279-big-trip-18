@@ -91,6 +91,12 @@ const getRandomArray = (list) => {
   return result;
 };
 
+/*
+*Преобразование первый символ в заглавный
+*/
+const transformFirstCharToUpperCase = (str) => str ? `${str[0].toUpperCase()}${str.slice(1)}` : str;
+
+
 export {
   getRandomInt,
   getRandomFloat,
@@ -102,5 +108,6 @@ export {
   formatMinutesToTime,
   formatStringToShortDate,
   formatStringToTime,
-  formatDurationToTime
+  formatDurationToTime,
+  transformFirstCharToUpperCase
 };
