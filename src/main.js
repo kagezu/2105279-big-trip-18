@@ -18,6 +18,7 @@ const pointModel = new PointModel();
 const offerModel = new OfferModel();
 const destinationModel = new DestinationModel();
 
+
 infoPresenter.init(infoContainer);
 filterPresenter.init(filterContainer);
 eventsPresenter.init(eventsContainer, pointModel.get(), offerModel, destinationModel);

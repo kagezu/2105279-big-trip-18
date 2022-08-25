@@ -9,9 +9,9 @@ dayjs.extend(duration);
 const formatStringToYear = (date) => dayjs(date).format('YYYY');
 
 /**
- *Преобразует в формат YYYY-MM-DD
+ *Преобразует в формат YY/MM/DD hh:mm
  */
-const formatStringToDate = (date) => dayjs(date).format('YYYY-MM-DD');
+const formatStringToDate = (date) => dayjs(date).format('YY/MM/DD hh:mm');
 
 /**
  *Преобразует в формат MMMM DD
@@ -24,7 +24,7 @@ const formatStringToShortDate = (date) => dayjs(date).format('MMMM DD');
 const formatStringToDateWithTime = (date) => dayjs(date).format('YYYY-MM-DD[T]hh:mm');
 
 /**
- *Преобразует в формат YYYY-MM-DD[T]hh:mm
+ *Преобразует в формат hh:mm
  */
 const formatStringToTime = (date) => dayjs(date).format('hh:mm');
 
