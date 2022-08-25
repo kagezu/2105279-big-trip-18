@@ -5,7 +5,8 @@ import {
   formatStringToDateWithTime,
   formatStringToShortDate,
   formatStringToTime,
-  formatDurationToTime
+  formatDurationToTime,
+  transformFirstCharToUpperCase
 } from '../utils/utils.js';
 
 const createTypeIcon = (type) => `
@@ -41,12 +42,12 @@ const createOffer = ({ title, price }) => `
   </li>`;
 const createOfferList = (type, offers, offerModel) => offers.map((id) => createOffer(offerModel.get(type, id))).join('');
 
-const createTemplate = ({ basePrice, dateFrom, dateTo, isFavorite, offers, type }, offerModel) => `
+const createTemplate = ({ basePrice, dateFrom, dateTo, isFavorite, offers, type, destination }, offerModel, destinationModel) => `
   <li class="trip-events__item" >
     <div class="event">
       ${createDate(dateFrom)}
       ${createTypeIcon(type)}
-      <h3 class="event__title">Taxi Amsterdam</h3>
+      <h3 class="event__title">${transformFirstCharToUpperCase(type)} ${destinationModel.get(destination).name}</h3>
       ${createSchedule(dateFrom, dateTo)}
       ${createPrice(basePrice)}
       <h4 class="visually-hidden">Offers:</h4>
@@ -63,14 +64,16 @@ const createTemplate = ({ basePrice, dateFrom, dateTo, isFavorite, offers, type 
 export default class TripEventItemView extends AbstractView {
   #point;
   #offerModel;
+  #destinationModel;
 
-  constructor(point, offerModel) {
+  constructor(point, offerModel, destinationModel) {
     super();
     this.#point = point;
     this.#offerModel = offerModel;
+    this.#destinationModel = destinationModel;
   }
 
   get template() {
-    return createTemplate(this.#point, this.#offerModel);
+    return createTemplate(this.#point, this.#offerModel, this.#destinationModel);
   }
 }

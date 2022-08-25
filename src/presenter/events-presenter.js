@@ -23,7 +23,7 @@ export default class EventsPresenter {
 
     render(new EditEventView(points[3], this.#offerModel, this.#destinationModel), this.#eventsContainer.element);
 
-    points.forEach((point) => render(new TripEventItemView(point, this.#offerModel), this.#eventsContainer.element));
+    points.forEach((point) => render(new TripEventItemView(point, this.#offerModel, this.#destinationModel), this.#eventsContainer.element));
   };
 }
 
