@@ -43,6 +43,7 @@ export default class EventsPresenter {
     const replaceFormToItem = () => {
       this.#eventsContainer.element.replaceChild(tripEventItemComponent.element, editEventComponent.element);
     };
+
     const onEscKeyDown = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
@@ -51,13 +52,12 @@ export default class EventsPresenter {
       }
     };
 
-    tripEventItemComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    tripEventItemComponent.setClickHandler(() => {
       replaceItemToForm();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    editEventComponent.element.querySelector('form').addEventListener('submit', (evt) => {
-      evt.preventDefault();
+    editEventComponent.setFormSubmitHandler(() => {
       replaceFormToItem();
       document.removeEventListener('keydown', onEscKeyDown);
     });

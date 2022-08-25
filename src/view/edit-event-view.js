@@ -125,4 +125,14 @@ export default class EditEventView extends AbstractView {
   get template() {
     return createTemplate(this.#point, this.#offerModel, this.#destinationModel);
   }
+
+  setFormSubmitHandler = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+  };
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  };
 }
