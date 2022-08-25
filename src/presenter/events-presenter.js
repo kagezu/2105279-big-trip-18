@@ -4,6 +4,7 @@ import TripEventListView from '../view/trip-event-list-view.js';
 import TripEventItemView from '../view/trip-event-item-view.js';
 // import NewEventView from '../view/new-event-view.js';
 import EditEventView from '../view/edit-event-view.js';
+import EmptyListView from '../view/empty-list-view.js';
 
 export default class EventsPresenter {
   #eventsContainer = new TripEventListView();
@@ -18,9 +19,13 @@ export default class EventsPresenter {
     this.#offerModel = offersModel;
     this.#destinationModel = destinationModel;
 
+    if (!points.length) {
+      render(new EmptyListView(), this.#container);
+      return;
+    }
+
     render(new TripEventsView(), this.#container);
     render(this.#eventsContainer, this.#container);
-
     points.forEach(this.#renderPoint);
   };
 
@@ -49,7 +54,7 @@ export default class EventsPresenter {
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    editEventComponent.element.querySelector('.event__rollup-btn').addEventListener('click', (evt) => {
+    editEventComponent.element.querySelector('form').addEventListener('submit', (evt) => {
       evt.preventDefault();
       replaceFormToItem();
       document.removeEventListener('keydown', onEscKeyDown);
