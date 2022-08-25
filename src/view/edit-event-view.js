@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { transformFirstCharToUpperCase, formatStringToDate } from '../utils.js';
+import { transformFirstCharToUpperCase, formatStringToDate } from '../utils/utils.js';
 import { OFFERS_TYPE } from '../const.js';
 
 const createTypeIcon = (type) => `

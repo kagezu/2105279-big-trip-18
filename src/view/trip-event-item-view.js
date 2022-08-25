@@ -6,7 +6,7 @@ import {
   formatStringToShortDate,
   formatStringToTime,
   formatDurationToTime
-} from '../utils.js';
+} from '../utils/utils.js';
 
 const createTypeIcon = (type) => `
  <div class="event__type">
