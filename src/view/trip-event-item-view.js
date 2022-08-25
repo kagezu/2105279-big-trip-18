@@ -1,13 +1,12 @@
 import AbstractView from '../framework/view/abstract-view.js';
-
 import {
   formatStringToDate,
   formatStringToDateWithTime,
   formatStringToShortDate,
   formatStringToTime,
-  formatDurationToTime,
-  transformFirstCharToUpperCase
-} from '../utils/utils.js';
+  formatDurationToTime
+} from '../utils/time.js';
+import { transformFirstCharToUpperCase } from '../utils/common.js';
 
 const createTypeIcon = (type) => `
  <div class="event__type">

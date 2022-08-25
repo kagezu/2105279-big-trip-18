@@ -42,12 +42,6 @@ const formatDurationToTime = (dateFrom, dateTo) =>
  */
 const formatMinutesToTime = (minutes) => dayjs.duration(minutes, 'minutes').format('H[h] mm[m]');
 
-/*
-*Преобразование первый символ в заглавный
-*/
-const transformFirstCharToUpperCase = (str) => str ? `${str[0].toUpperCase()}${str.slice(1)}` : str;
-
-
 export {
   formatStringToYear,
   formatStringToDate,
@@ -55,6 +49,5 @@ export {
   formatMinutesToTime,
   formatStringToShortDate,
   formatStringToTime,
-  formatDurationToTime,
-  transformFirstCharToUpperCase
+  formatDurationToTime
 };
