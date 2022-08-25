@@ -21,9 +21,41 @@ export default class EventsPresenter {
     render(new TripEventsView(), this.#container);
     render(this.#eventsContainer, this.#container);
 
-    render(new EditEventView(points[3], this.#offerModel, this.#destinationModel), this.#eventsContainer.element);
+    points.forEach(this.#renderPoint);
+  };
 
-    points.forEach((point) => render(new TripEventItemView(point, this.#offerModel, this.#destinationModel), this.#eventsContainer.element));
+  #renderPoint = (point) => {
+    const tripEventItemComponent = new TripEventItemView(point, this.#offerModel, this.#destinationModel);
+    const editEventComponent = new EditEventView(point, this.#offerModel, this.#destinationModel);
+
+
+    const replaceItemToForm = () => {
+      this.#eventsContainer.element.replaceChild(editEventComponent.element, tripEventItemComponent.element);
+    };
+
+    const replaceFormToItem = () => {
+      this.#eventsContainer.element.replaceChild(tripEventItemComponent.element, editEventComponent.element);
+    };
+    const onEscKeyDown = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        replaceFormToItem();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+
+    tripEventItemComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replaceItemToForm();
+      document.addEventListener('keydown', onEscKeyDown);
+    });
+
+    editEventComponent.element.querySelector('.event__rollup-btn').addEventListener('click', (evt) => {
+      evt.preventDefault();
+      replaceFormToItem();
+      document.removeEventListener('keydown', onEscKeyDown);
+    });
+
+    render(tripEventItemComponent, this.#eventsContainer.element);
   };
 }
 
