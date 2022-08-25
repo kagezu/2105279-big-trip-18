@@ -10,15 +10,14 @@ const infoContainer = document.querySelector('.trip-main');
 const filterContainer = document.querySelector('.trip-controls__filters');
 const eventsContainer = document.querySelector('.trip-events');
 
-const infoPresenter = new InfoPresenter();
-const filterPresenter = new FilterPresenter();
-const eventsPresenter = new EventsPresenter();
-
 const pointModel = new PointModel();
 const offerModel = new OfferModel();
 const destinationModel = new DestinationModel();
 
+const infoPresenter = new InfoPresenter(infoContainer);
+const filterPresenter = new FilterPresenter(filterContainer);
+const eventsPresenter = new EventsPresenter(eventsContainer, pointModel.get(), offerModel, destinationModel);
 
-infoPresenter.init(infoContainer);
-filterPresenter.init(filterContainer);
-eventsPresenter.init(eventsContainer, pointModel.get(), offerModel, destinationModel);
+infoPresenter.init();
+filterPresenter.init();
+eventsPresenter.init();

@@ -13,20 +13,22 @@ export default class EventsPresenter {
   #offerModel;
   #destinationModel;
 
-  init = (container, points, offersModel, destinationModel) => {
+  constructor(container, points, offersModel, destinationModel) {
     this.#container = container;
     this.#points = points;
     this.#offerModel = offersModel;
     this.#destinationModel = destinationModel;
+  }
 
-    if (!points.length) {
+  init = () => {
+    if (!this.#points.length) {
       render(new EmptyListView(), this.#container);
       return;
     }
 
     render(new TripEventsView(), this.#container);
     render(this.#eventsContainer, this.#container);
-    points.forEach(this.#renderPoint);
+    this.#points.forEach(this.#renderPoint);
   };
 
   #renderPoint = (point) => {

@@ -3,8 +3,12 @@ import FiltersView from '../view/filters-view.js';
 
 export default class FilterPresenter {
   #container;
-  init = (container) => {
+
+  constructor(container) {
     this.#container = container;
+  }
+
+  init = () => {
     render(new FiltersView(), this.#container, RenderPosition.AFTERBEGIN);
   };
 }
