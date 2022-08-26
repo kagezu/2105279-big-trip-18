@@ -1,8 +1,13 @@
 export const OFFERS_TYPE = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
-export const filterToMessage = {
-  'all': 'Click New Event to create your first point',
-  'everthing': 'Click New Event to create your first point',
-  'past': 'There are no past events now',
-  'future': 'There are no future events now',
+export const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PAST: 'past'
+};
+
+export const filterTypeToMessage = {
+  [FilterType.EVERYTHING]: 'Click New Event to create your first point',
+  [FilterType.PAST]: 'There are no past events now',
+  [FilterType.FUTURE]: 'There are no future events now',
 };

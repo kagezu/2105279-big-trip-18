@@ -42,6 +42,16 @@ const formatDurationToTime = (dateFrom, dateTo) =>
  */
 const formatMinutesToTime = (minutes) => dayjs.duration(minutes, 'minutes').format('H[h] mm[m]');
 
+/**
+ *Определяет является ли указанное время прошлым
+ */
+const isPastDate = (date) => dayjs(date).isBefore(dayjs(), 'D');
+
+/**
+ *Определяет не прошла ли указанная дата
+ */
+const isFutureDate = (date) => !dayjs(date).isBefore(dayjs(), 'D');
+
 export {
   formatStringToYear,
   formatStringToDate,
@@ -49,5 +59,7 @@ export {
   formatMinutesToTime,
   formatStringToShortDate,
   formatStringToTime,
-  formatDurationToTime
+  formatDurationToTime,
+  isPastDate,
+  isFutureDate
 };

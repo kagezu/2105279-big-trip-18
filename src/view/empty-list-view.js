@@ -1,7 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { filterToMessage } from '../const.js';
+import { FilterType, filterTypeToMessage } from '../const.js';
 
-const createTemplate = (filter = 'all') => `<p class="trip-events__msg">${filterToMessage[filter]}</p>`;
+const createTemplate = (filter = FilterType.EVERYTHING) => `<p class="trip-events__msg">${filterTypeToMessage[filter]}</p>`;
 
 export default class EmptyListView extends AbstractView {
 
