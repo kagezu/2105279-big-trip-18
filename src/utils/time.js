@@ -43,9 +43,9 @@ const formatDurationToTime = (dateFrom, dateTo) =>
 const formatMinutesToTime = (minutes) => dayjs.duration(minutes, 'minutes').format('H[h] mm[m]');
 
 /**
- *Определяет является ли указанное время прошлым
+ *Определяет прошла ли указанная дата
  */
-const isPastDate = (date) => dayjs(date).isBefore(dayjs(), 'D');
+const isPastDate = (date) => !dayjs(date).isAfter(dayjs(), 'D');
 
 /**
  *Определяет не прошла ли указанная дата
