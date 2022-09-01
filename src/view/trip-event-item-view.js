@@ -86,4 +86,15 @@ export default class TripEventItemView extends AbstractView {
     this._callback.click();
   };
 
+  // Установка обработчика для "звёздочки"
+
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
+  };
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  };
 }
