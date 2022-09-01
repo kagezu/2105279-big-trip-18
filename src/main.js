@@ -19,8 +19,8 @@ const filters = generateFilter(pointModel.get());
 
 const infoPresenter = new InfoPresenter(infoContainer);
 const filterPresenter = new FilterPresenter(filterContainer, filters);
-const eventsPresenter = new EventsPresenter(eventsContainer, pointModel.get(), offerModel, destinationModel);
+const eventsPresenter = new EventsPresenter(eventsContainer, offerModel, destinationModel);
 
 infoPresenter.init();
 filterPresenter.init();
-eventsPresenter.init();
+eventsPresenter.init(pointModel.get());

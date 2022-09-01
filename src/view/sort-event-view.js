@@ -24,7 +24,7 @@ const createTemplate = () => `
     </div>
   </form>`;
 
-export default class TripEventsView extends AbstractView {
+export default class SortEventView extends AbstractView {
 
   get template() {
     return createTemplate();
