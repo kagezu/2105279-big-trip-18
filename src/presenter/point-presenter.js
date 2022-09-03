@@ -2,6 +2,11 @@ import { render, replace, remove } from '../framework/render.js';
 import TripEventItemView from '../view/trip-event-item-view.js';
 import EditEventView from '../view/edit-event-view.js';
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 export default class PointPresenter {
   #container;
   #point;
@@ -10,12 +15,15 @@ export default class PointPresenter {
   #tripEventItemComponent = null;
   #editEventComponent = null;
   #changeData = null;
+  #changeMode = null;
+  #mode = Mode.DEFAULT;
 
-  constructor(container, offersModel, destinationModel, changeData) {
+  constructor(container, offersModel, destinationModel, changeData, changeMode) {
     this.#container = container;
     this.#offerModel = offersModel;
     this.#destinationModel = destinationModel;
     this.#changeData = changeData;
+    this.#changeMode = changeMode;
   }
 
   init = (point) => {
@@ -56,12 +64,21 @@ export default class PointPresenter {
     remove(prevEditEventComponent);
   };
 
+  resetView = () => {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#replaceFormToItem();
+    }
+  };
+
   #replaceItemToForm = () => {
     replace(this.#editEventComponent, this.#tripEventItemComponent);
+    this.#changeMode();
+    this.#mode = Mode.EDITING;
   };
 
   #replaceFormToItem = () => {
     replace(this.#tripEventItemComponent, this.#editEventComponent);
+    this.#mode = Mode.DEFAULT;
   };
 
   #onEscKeyDown = (evt) => {
@@ -80,4 +97,5 @@ export default class PointPresenter {
     this.#changeData(point);
     this.#replaceFormToItem();
   };
-};
+
+}

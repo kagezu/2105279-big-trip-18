@@ -64,7 +64,13 @@ export default class EventsPresenter {
   };
 
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#eventsContainer.element, this.#offerModel, this.#destinationModel, this.#handlePointChange);
+    const pointPresenter = new PointPresenter(
+      this.#eventsContainer.element,
+      this.#offerModel,
+      this.#destinationModel,
+      this.#handlePointChange,
+      this.#handleModeChange
+    );
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
   };
@@ -73,4 +79,9 @@ export default class EventsPresenter {
     this.#points = updatePoint(this.#points, updatedPoint);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
   };
+
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
+  };
+
 }
