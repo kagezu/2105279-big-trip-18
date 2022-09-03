@@ -36,16 +36,8 @@ export default class PointPresenter {
     this.#editEventComponent = new EditEventView(this.#point, this.#offerModel, this.#destinationModel);
 
     this.#tripEventItemComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
-
-    this.#tripEventItemComponent.setClickHandler(() => {
-      this.#replaceItemToForm();
-      document.addEventListener('keydown', this.#onEscKeyDown);
-    });
-
-    this.#editEventComponent.setFormSubmitHandler(() => {
-      this.#replaceFormToItem();
-      document.removeEventListener('keydown', this.#onEscKeyDown);
-    });
+    this.#tripEventItemComponent.setClickHandler(this.#replaceItemToForm);
+    this.#editEventComponent.setFormSubmitHandler(this.#replaceFormToItem);
 
     if (prevTripEventItemComponent === null || prevEditEventComponent === null) {
       render(this.#tripEventItemComponent, this.#container);
@@ -72,12 +64,14 @@ export default class PointPresenter {
 
   #replaceItemToForm = () => {
     replace(this.#editEventComponent, this.#tripEventItemComponent);
+    document.addEventListener('keydown', this.#onEscKeyDown);
     this.#changeMode();
     this.#mode = Mode.EDITING;
   };
 
   #replaceFormToItem = () => {
     replace(this.#tripEventItemComponent, this.#editEventComponent);
+    document.removeEventListener('keydown', this.#onEscKeyDown);
     this.#mode = Mode.DEFAULT;
   };
 

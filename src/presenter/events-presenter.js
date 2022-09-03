@@ -1,7 +1,6 @@
 import { render, remove } from '../framework/render.js';
 import SortEventView from '../view/sort-event-view.js';
 import TripEventListView from '../view/trip-event-list-view.js';
-// import NewEventView from '../view/new-event-view.js';
 import EmptyListView from '../view/empty-list-view.js';
 import PointPresenter from './point-presenter.js';
 import { updatePoint } from '../utils/common.js';
@@ -12,8 +11,8 @@ export default class EventsPresenter {
   #points;
   #offerModel;
   #destinationModel;
-  #sortEventView;
-  #emptyListView;
+  #sortEventComponent;
+  #emptyListComponent;
   #pointPresenter = new Map();
 
   constructor(container, offersModel, destinationModel) {
@@ -39,13 +38,13 @@ export default class EventsPresenter {
 
   #clearEventList = () => {
     if (!this.#points.length) {
-      remove(this.#emptyListView);
+      remove(this.#emptyListComponent);
       return;
     }
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
     remove(this.#eventsContainer);
-    remove(this.#sortEventView);
+    remove(this.#sortEventComponent);
   };
 
   #renderContainer = () => {
@@ -54,13 +53,13 @@ export default class EventsPresenter {
   };
 
   #renderEmpty = () => {
-    this.#emptyListView = new EmptyListView();
-    render(this.#emptyListView, this.#container);
+    this.#emptyListComponent = new EmptyListView();
+    render(this.#emptyListComponent, this.#container);
   };
 
   #renderSort = () => {
-    this.#sortEventView = new SortEventView();
-    render(this.#sortEventView, this.#container);
+    this.#sortEventComponent = new SortEventView();
+    render(this.#sortEventComponent, this.#container);
   };
 
   #renderPoint = (point) => {
