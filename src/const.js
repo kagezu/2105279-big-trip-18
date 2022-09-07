@@ -11,3 +11,9 @@ export const filterTypeToMessage = {
   [FilterType.PAST]: 'There are no past events now',
   [FilterType.FUTURE]: 'There are no future events now',
 };
+
+export const SortType = {
+  DAY: 'day',
+  TIME: 'time',
+  PRICE: 'price'
+};
