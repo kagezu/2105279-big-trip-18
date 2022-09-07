@@ -3,7 +3,8 @@ import SortEventView from '../view/sort-event-view.js';
 import TripEventListView from '../view/trip-event-list-view.js';
 import EmptyListView from '../view/empty-list-view.js';
 import PointPresenter from './point-presenter.js';
-import { updatePoint } from '../utils/common.js';
+import { updatePoint, sortTime, sortPrice } from '../utils/common.js';
+import { SortType } from '../const.js';
 
 export default class EventsPresenter {
   #eventsContainer;
@@ -14,6 +15,8 @@ export default class EventsPresenter {
   #sortEventComponent;
   #emptyListComponent;
   #pointPresenter = new Map();
+  #currentSortType = SortType.DAY;
+  #sourcePoints = [];
 
   constructor(container, offersModel, destinationModel) {
     this.#container = container;
@@ -23,28 +26,25 @@ export default class EventsPresenter {
 
   init = (points) => {
     this.#points = points;
-    this.#renderEventList();
-  };
+    this.#sourcePoints = [...points];
 
-  #renderEventList = () => {
     if (!this.#points.length) {
       this.#renderEmpty();
       return;
     }
     this.#renderSort();
+    this.#renderEventList();
+  };
+
+  #renderEventList = () => {
     this.#renderContainer();
     this.#points.forEach(this.#renderPoint);
   };
 
   #clearEventList = () => {
-    if (!this.#points.length) {
-      remove(this.#emptyListComponent);
-      return;
-    }
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
     remove(this.#eventsContainer);
-    remove(this.#sortEventComponent);
   };
 
   #renderContainer = () => {
@@ -60,6 +60,7 @@ export default class EventsPresenter {
   #renderSort = () => {
     this.#sortEventComponent = new SortEventView();
     render(this.#sortEventComponent, this.#container);
+    this.#sortEventComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   };
 
   #renderPoint = (point) => {
@@ -76,6 +77,7 @@ export default class EventsPresenter {
 
   #handlePointChange = (updatedPoint) => {
     this.#points = updatePoint(this.#points, updatedPoint);
+    this.#sourcePoints = updatePoint(this.#sourcePoints, updatedPoint);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
   };
 
@@ -83,4 +85,28 @@ export default class EventsPresenter {
     this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
+  // Сортировка
+
+  #sortPoints = (sortType) => {
+    switch (sortType) {
+      case SortType.TIME:
+        this.#points.sort(sortTime);
+        break;
+      case SortType.PRICE:
+        this.#points.sort(sortPrice);
+        break;
+      default:
+        this.#points = [...this.#sourcePoints];
+    }
+    this.#currentSortType = sortType;
+  };
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+    this.#sortPoints(sortType);
+    this.#clearEventList();
+    this.#renderEventList();
+  };
 }

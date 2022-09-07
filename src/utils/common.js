@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 /*
 *Преобразование первый символ в заглавный
 */
@@ -20,3 +22,8 @@ export const updatePoint = (points, update) => {
     ...points.slice(index + 1),
   ];
 };
+
+// Функции сортировки
+
+export const sortTime = (pointA, pointB) => dayjs(pointA.dateFrom).diff(pointA.dateTo) > dayjs(pointB.dateFrom).diff(pointB.dateTo);
+export const sortPrice = (pointA, pointB) => pointB.basePrice > pointA.basePrice;

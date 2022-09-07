@@ -62,6 +62,11 @@ export default class PointPresenter {
     }
   };
 
+  destroy = () => {
+    remove(this.#tripEventItemComponent);
+    remove(this.#editEventComponent);
+  };
+
   #replaceItemToForm = () => {
     replace(this.#editEventComponent, this.#tripEventItemComponent);
     document.addEventListener('keydown', this.#onEscKeyDown);
