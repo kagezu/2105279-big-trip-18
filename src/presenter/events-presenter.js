@@ -95,8 +95,11 @@ export default class EventsPresenter {
       case SortType.PRICE:
         this.#points.sort(sortPrice);
         break;
-      default:
+      case SortType.DAY:
         this.#points = [...this.#sourcePoints];
+        break;
+      default:
+        return;
     }
     this.#currentSortType = sortType;
   };
