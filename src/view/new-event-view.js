@@ -166,7 +166,17 @@ const createTemplate = () => `
 
 export default class NewEventView extends AbstractView {
 
+  // Конструктор
+
+  // Геттеры
+
   get template() {
     return createTemplate();
   }
+
+  // Публичные методы
+
+  // Обработчики событий
+
+  // Статические методы
 }

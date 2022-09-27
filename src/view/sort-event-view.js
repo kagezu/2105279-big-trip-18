@@ -27,14 +27,20 @@ const createTemplate = () => `
 
 export default class SortEventView extends AbstractView {
 
+  // Геттеры
+
   get template() {
     return createTemplate();
   }
+
+  // Публичные методы
 
   setSortTypeChangeHandler = (callback) => {
     this._callback.sortTypeChange = callback;
     this.element.addEventListener('click', this.#sortTypeChangeHandler);
   };
+
+  // Обработчики событий
 
   #sortTypeChangeHandler = (evt) => {
     if (evt.target.tagName !== 'LABEL') {

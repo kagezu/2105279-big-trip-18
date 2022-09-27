@@ -1,6 +1,6 @@
 import { render, remove } from '../framework/render.js';
 import SortEventView from '../view/sort-event-view.js';
-import TripEventListView from '../view/trip-event-list-view.js';
+import EventListView from '../view/event-list-view.js';
 import EmptyListView from '../view/empty-list-view.js';
 import PointPresenter from './point-presenter.js';
 import { updatePoint, sortTime, sortPrice } from '../utils/common.js';
@@ -18,11 +18,14 @@ export default class EventsPresenter {
   #currentSortType = SortType.DAY;
   #sourcePoints = [];
 
+  // Конструктор
+
   constructor(container, offersModel, destinationModel) {
     this.#container = container;
     this.#offerModel = offersModel;
     this.#destinationModel = destinationModel;
   }
+  // Публичные методы
 
   init = (points) => {
     this.#points = points;
@@ -36,6 +39,8 @@ export default class EventsPresenter {
     this.#renderEventList();
   };
 
+  // Приватные методы
+
   #renderEventList = () => {
     this.#renderContainer();
     this.#points.forEach(this.#renderPoint);
@@ -48,7 +53,7 @@ export default class EventsPresenter {
   };
 
   #renderContainer = () => {
-    this.#eventsContainer = new TripEventListView();
+    this.#eventsContainer = new EventListView();
     render(this.#eventsContainer, this.#container);
   };
 
@@ -75,18 +80,6 @@ export default class EventsPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   };
 
-  #handlePointChange = (updatedPoint) => {
-    this.#points = updatePoint(this.#points, updatedPoint);
-    this.#sourcePoints = updatePoint(this.#sourcePoints, updatedPoint);
-    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
-  };
-
-  #handleModeChange = () => {
-    this.#pointPresenter.forEach((presenter) => presenter.resetView());
-  };
-
-  // Сортировка
-
   #sortPoints = (sortType) => {
     switch (sortType) {
       case SortType.TIME:
@@ -102,6 +95,18 @@ export default class EventsPresenter {
         return;
     }
     this.#currentSortType = sortType;
+  };
+
+  // Обработчики событий
+
+  #handlePointChange = (updatedPoint) => {
+    this.#points = updatePoint(this.#points, updatedPoint);
+    this.#sourcePoints = updatePoint(this.#sourcePoints, updatedPoint);
+    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
+  };
+
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
   #handleSortTypeChange = (sortType) => {

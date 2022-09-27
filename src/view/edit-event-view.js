@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { formatStringToDate } from '../utils/time.js';
 import { transformFirstCharToUpperCase } from '../utils/common.js';
 import { OFFERS_TYPE } from '../const.js';
@@ -111,21 +111,26 @@ const createTemplate = ({ basePrice, dateFrom, dateTo, offers, type, destination
     </form>
   </li>`;
 
-export default class EditEventView extends AbstractView {
-  #point;
+export default class EditEventView extends AbstractStatefulView {
   #offerModel;
   #destinationModel;
 
+  // Конструктор
+
   constructor(point, offerModel, destinationModel) {
     super();
-    this.#point = point;
+    this._state = EditEventView.parseStateToPoint(point);
     this.#offerModel = offerModel;
     this.#destinationModel = destinationModel;
   }
 
+  // Геттеры
+
   get template() {
-    return createTemplate(this.#point, this.#offerModel, this.#destinationModel);
+    return createTemplate(this._state, this.#offerModel, this.#destinationModel);
   }
+
+  // Публичные методы
 
   setFormSubmitHandler = (callback) => {
     this._callback.formSubmit = callback;
@@ -133,8 +138,22 @@ export default class EditEventView extends AbstractView {
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formSubmitHandler);
   };
 
+  // Обработчики событий
+
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this._callback.formSubmit();
   };
+
+  // Статические методы
+
+  static parsePointToState = (point) => ({
+    ...point,
+  });
+
+  static parseStateToPoint = (state) => {
+    const point = { ...state };
+    return point;
+  };
+
 }
