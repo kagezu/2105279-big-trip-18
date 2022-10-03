@@ -12,7 +12,7 @@ export default class PointPresenter {
   #point;
   #offerModel;
   #destinationModel;
-  #tripEventItemComponent = null;
+  #eventComponent = null;
   #editEventComponent = null;
   #changeData = null;
   #changeMode = null;
@@ -33,31 +33,34 @@ export default class PointPresenter {
   init = (point) => {
     this.#point = point;
 
-    const prevTripEventItemComponent = this.#tripEventItemComponent;
+    const prevEventComponent = this.#eventComponent;
     const prevEditEventComponent = this.#editEventComponent;
 
-    this.#tripEventItemComponent = new EventView(this.#point, this.#offerModel, this.#destinationModel);
+    this.#eventComponent = new EventView(this.#point, this.#offerModel, this.#destinationModel);
     this.#editEventComponent = new EditEventView(this.#point, this.#offerModel, this.#destinationModel);
 
-    this.#tripEventItemComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
-    this.#tripEventItemComponent.setClickHandler(this.#replaceItemToForm);
+    this.#eventComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#eventComponent.setClickHandler(this.#replaceItemToForm);
     this.#editEventComponent.setFormSubmitHandler(this.#replaceFormToItem);
 
-    if (prevTripEventItemComponent === null || prevEditEventComponent === null) {
-      render(this.#tripEventItemComponent, this.#container);
+    if (prevEventComponent === null || prevEditEventComponent === null) {
+      render(this.#eventComponent, this.#container);
       return;
     }
 
-    if (this.#container.contains(prevTripEventItemComponent.element)) {
-      replace(this.#tripEventItemComponent, prevTripEventItemComponent);
+    if (this.#container.contains(prevEventComponent.element)) {
+      replace(this.#eventComponent, prevEventComponent);
     }
 
     if (this.#container.contains(prevEditEventComponent.element)) {
       replace(this.#editEventComponent, prevEditEventComponent);
     }
 
-    remove(prevTripEventItemComponent);
+    remove(prevEventComponent);
     remove(prevEditEventComponent);
+
+    // this.#editEventComponent;
+
   };
 
   resetView = () => {
@@ -67,21 +70,21 @@ export default class PointPresenter {
   };
 
   destroy = () => {
-    remove(this.#tripEventItemComponent);
+    remove(this.#eventComponent);
     remove(this.#editEventComponent);
   };
 
   // Приватные методы
 
   #replaceItemToForm = () => {
-    replace(this.#editEventComponent, this.#tripEventItemComponent);
+    replace(this.#editEventComponent, this.#eventComponent);
     document.addEventListener('keydown', this.#handleEscKeyDown);
     this.#changeMode();
     this.#mode = Mode.EDITING;
   };
 
   #replaceFormToItem = () => {
-    replace(this.#tripEventItemComponent, this.#editEventComponent);
+    replace(this.#eventComponent, this.#editEventComponent);
     document.removeEventListener('keydown', this.#handleEscKeyDown);
     this.#mode = Mode.DEFAULT;
   };

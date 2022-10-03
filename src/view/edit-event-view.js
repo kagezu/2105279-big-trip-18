@@ -122,6 +122,7 @@ export default class EditEventView extends AbstractStatefulView {
     this._state = EditEventView.parseStateToPoint(point);
     this.#offerModel = offerModel;
     this.#destinationModel = destinationModel;
+    this._restoreHandlers();
   }
 
   // Геттеры
@@ -130,19 +131,40 @@ export default class EditEventView extends AbstractStatefulView {
     return createTemplate(this._state, this.#offerModel, this.#destinationModel);
   }
 
+  // Перегружаемые методы
+
+  _restoreHandlers = () => {
+    [...this.element.querySelectorAll('.event__type-input')]
+      .forEach((element) => element.addEventListener('change', this.#handlePointTypeChange));
+  };
+
   // Публичные методы
 
   setFormSubmitHandler = (callback) => {
     this._callback.formSubmit = callback;
-    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formSubmitHandler);
+    this.element.querySelector('form').addEventListener('submit', this.#handleFormSubmit);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#handleFormSubmit);
+  };
+
+  setPointTypeChangeHandler = (callback) => {
+    this._callback.typeChange = callback;
   };
 
   // Обработчики событий
 
-  #formSubmitHandler = (evt) => {
+  #handleFormSubmit = (evt) => {
     evt.preventDefault();
     this._callback.formSubmit();
+  };
+
+  #handlePointTypeChange = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      type: evt.target.value,
+      offers: []
+    });
+
+    // this._callback.typeChange();
   };
 
   // Статические методы
