@@ -63,6 +63,18 @@ const createEventOfferList = (offers, offerList) => {
       </div>
     </section>`;
 };
+const createEventPhoto = ({ src, description }) => `<img class="event__photo" src="${src}" alt="${description}">`;
+const createEventPhotoList = ({ pictures }) => {
+  const photoList = pictures ? pictures
+    .map(createEventPhoto)
+    .join('') : '';
+  return `
+    <div class="event__photos-container">
+      <div class="event__photos-tape">
+        ${photoList}
+      </div>
+    </div>`;
+};
 
 const createTemplate = ({ basePrice, dateFrom, dateTo, offers, type, destination }, offerModel, destinationModel) => `
   <li class="trip-events__item">
@@ -106,6 +118,7 @@ const createTemplate = ({ basePrice, dateFrom, dateTo, offers, type, destination
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
           <p class="event__destination-description">${destinationModel.get(destination).description}</p>
+          ${createEventPhotoList(destinationModel.get(destination))}
         </section>
       </section>
     </form>
@@ -136,6 +149,8 @@ export default class EditEventView extends AbstractStatefulView {
   _restoreHandlers = () => {
     [...this.element.querySelectorAll('.event__type-input')]
       .forEach((element) => element.addEventListener('change', this.#handlePointTypeChange));
+    this.element.querySelector('form').addEventListener('submit', this.#handleFormSubmit);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#handleFormSubmit);
   };
 
   // Публичные методы
@@ -146,9 +161,11 @@ export default class EditEventView extends AbstractStatefulView {
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#handleFormSubmit);
   };
 
-  setPointTypeChangeHandler = (callback) => {
-    this._callback.typeChange = callback;
-  };
+  /*
+    setPointTypeChangeHandler = (callback) => {
+      this._callback.typeChange = callback;
+    };
+  */
 
   // Обработчики событий
 
@@ -163,8 +180,6 @@ export default class EditEventView extends AbstractStatefulView {
       type: evt.target.value,
       offers: []
     });
-
-    // this._callback.typeChange();
   };
 
   // Статические методы
