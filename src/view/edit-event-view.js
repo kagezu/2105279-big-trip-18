@@ -2,6 +2,8 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { formatStringToDate } from '../utils/time.js';
 import { transformFirstCharToUpperCase } from '../utils/common.js';
 import { OFFERS_TYPE } from '../const.js';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 const createTypeIcon = (type) => `
   <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -127,6 +129,7 @@ const createTemplate = ({ basePrice, dateFrom, dateTo, offers, type, destination
 export default class EditEventView extends AbstractStatefulView {
   #offerModel;
   #destinationModel;
+  #datepicker = null;
 
   // Конструктор
 
@@ -145,6 +148,14 @@ export default class EditEventView extends AbstractStatefulView {
   }
 
   // Перегружаемые методы
+
+  removeElement = () => {
+    super.removeElement();
+    if (this.#datepicker) {
+      this.#datepicker.destroy();
+      this.#datepicker = null;
+    }
+  };
 
   _restoreHandlers = () => {
     [...this.element.querySelectorAll('.event__type-input')]
@@ -166,6 +177,31 @@ export default class EditEventView extends AbstractStatefulView {
       this._callback.typeChange = callback;
     };
   */
+
+  // Приватные методы
+
+
+  #dueDateChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dueDate: userDate,
+    });
+  };
+
+  #setDatepicker = () => {
+    if (this._state.isDueDate) {
+      // flatpickr есть смысл инициализировать только в случае,
+      // если поле выбора даты доступно для заполнения
+      this.#datepicker = flatpickr(
+        this.element.querySelector('.card__date'),
+        {
+          dateFormat: 'j F',
+          defaultDate: this._state.dueDate,
+          onChange: this.#dueDateChangeHandler, // На событие flatpickr передаём наш колбэк
+        },
+      );
+    }
+  };
+
 
   // Обработчики событий
 
